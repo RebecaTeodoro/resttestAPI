@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.resttest.entity.Contact;
@@ -77,13 +78,10 @@ public class ContactRepositoryTest {
 		assertEquals(response.get().getName(), NAME);
 	}
 	
-	/*
-	commercialPhone
-	homePhone
-	cellPhone
-	commercialEmail
-	personalEmail
-	dateOfBirth
-	isFavorite
-	*/
+	@Test
+	public void testFindAll() {
+		List<Contact> response = repository.findAll();
+		assertEquals(response.size(), 1);
+		
+	}
 }
