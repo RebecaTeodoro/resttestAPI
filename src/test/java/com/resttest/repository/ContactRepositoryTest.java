@@ -3,6 +3,7 @@ package com.resttest.repository;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 import com.resttest.entity.Contact;
 import com.resttest.repository.ContactRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,23 +31,33 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class ContactRepositoryTest {
 
-	private static final String NAME = "NomeTest";
+	private static final String NAME = "NomeTeste";
+	private static final String COMMERCIALPHONE = "1212-1212";
+	private static final String HOMEPHONE = "1212-1212";
+	private static final String CELLPHONE = "1212-1212";
+	private static final String COMMERCIALEMAIL = "teste@teste.com.br";
+	private static final String PERSONALEMAIL = "teste@teste.com.br";
+	private static final Date DATEOFBIRTH = new Date();
+	private static final Boolean FAVORITE = true;
+	public Long idSave;
 	@Autowired
 	ContactRepository repository;
 	
 	@Before
 	public void setUp() {
 		Contact c = new Contact();
+
 		c.setName(NAME);
-		c.setCommercialPhone("1212-1212");
-		c.setHomePhone("1212-1212");
-		c.setCellPhone("1212-1212");
-		c.setCommercialEmail("teste@teste.com.br");
-		c.setPersonalEmail("teste@teste.com.br");
-		c.setDateOfBirth(new Date());
-		c.setFavorite(true);
+		c.setCommercialPhone(COMMERCIALPHONE);
+		c.setHomePhone(HOMEPHONE);
+		c.setCellPhone(CELLPHONE);
+		c.setCommercialEmail(COMMERCIALEMAIL);
+		c.setPersonalEmail(PERSONALEMAIL);
+		c.setDateOfBirth(DATEOFBIRTH);
+		c.setFavorite(FAVORITE);
 		
-		repository.save(c);
+		Contact contact = repository.save(c);
+		idSave = contact.getId();
 	}
 	
 	@After
@@ -54,34 +68,89 @@ public class ContactRepositoryTest {
 	@Test
 	public void testSave() {
 		Contact c = new Contact();
-		c.setName("NomeTest");
-		c.setCommercialPhone("1212-1212");
-		c.setHomePhone("1212-1212");
-		c.setCellPhone("1212-1212");
-		c.setCommercialEmail("teste@teste.com.br");
-		c.setPersonalEmail("teste@teste.com.br");
-		c.setDateOfBirth(new Date());
-		c.setFavorite(true);
+
+		c.setName(NAME);
+		c.setCommercialPhone(COMMERCIALPHONE);
+		c.setHomePhone(HOMEPHONE);
+		c.setCellPhone(CELLPHONE);
+		c.setCommercialEmail(COMMERCIALEMAIL);
+		c.setPersonalEmail(PERSONALEMAIL);
+		c.setDateOfBirth(DATEOFBIRTH);
+		c.setFavorite(FAVORITE);
 		
 		Contact response = repository.save(c);
 		
 		assertNotNull(response);
+		assertEquals(response.getName(), NAME);
+	}
+	
+	
+	@Test
+	public void testUpdate() {
+		Optional<Contact> contact = repository.findById(idSave);
 		
+		Contact c = contact.get();
+		c.setName(NAME+" alterado");
+	
+		repository.save(c);
+		
+		Optional<Contact> newContact = repository.findById(idSave);
+		
+		assertEquals(newContact.get().getName(), "NomeTeste alterado");
 		
 	}
 	
 	@Test
-	public void testFindByName() {
-		Optional<Contact> response = repository.findByNameEquals(NAME);
+	public void testUpdateFavorite() {
+		Optional<Contact> contact = repository.findById(idSave);
+		
+		Contact c = contact.get();
+	
+		repository.updateContactSetFavoriteForId(c.getId(), false);
+		
+		Optional<Contact> newContact = repository.findById(idSave);
+		
+		assertEquals(newContact.get().getFavorite(), false);
+
+	}
+	
+	@Test
+	public void testDelete() {
+
+		Contact c = new Contact(null, NAME, COMMERCIALPHONE, HOMEPHONE, CELLPHONE, COMMERCIALEMAIL, PERSONALEMAIL, DATEOFBIRTH, FAVORITE);
+		
+		repository.save(c);
+		
+		repository.deleteById(c.getId());
+		
+		Optional<Contact>  response = repository.findById(c.getId());
+		
+		assertFalse(response.isPresent());
+	}
+	
+	@Test
+	public void testFindById() {
+		Optional<Contact> response = repository.findById(idSave);
 		
 		assertTrue(response.isPresent());
 		assertEquals(response.get().getName(), NAME);
 	}
 	
 	@Test
+	public void testFindByName() {
+		List<Contact> response = repository.findByNameEquals(NAME);
+		
+		assertNotNull(response);
+		assertEquals(response.get(0).getName(), NAME);
+	}
+	
+	@Test
 	public void testFindAll() {
-		List<Contact> response = repository.findAll();
-		assertEquals(response.size(), 1);
+
+		Page<Contact> response = repository.findAll(PageRequest.of(0,10));
+		assertEquals(response.getContent().size(), 1);
+		assertEquals(response.getTotalElements(), 1);
+		assertEquals(response.getContent().get(0).getId(), idSave);
 		
 	}
 }
