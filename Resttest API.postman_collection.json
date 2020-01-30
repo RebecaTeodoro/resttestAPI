@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "62e5c9c6-0765-4adb-b011-6f63cacc12ad",
+		"name": "Resttest API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST/contact",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"null\",\n\t\"name\": \"Testando 345\",\n\t\"commercialPhone\": \"1212-1212\",\n\t\"homePhone\": \"1212-1212\",\n\t\"cellPhone\": \"1212-1212\",\n\t\"commercialEmail\": \"teste@teste.com.br\",\n\t\"personalEmail\": \"teste@teste.com.br\",\n\t\"dateOfBirth\": \"10-04-1989\",\n\t\"favorite\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/contact",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET/contact",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/contact/3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET/contactAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/contact/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET/contactAllPage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/contact/page/0",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						"page",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET/contactName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/contact/name/Testando 345",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						"name",
+						"Testando 345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT/contact",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"3\",\n\t\"name\": \"Testando 34567\",\n\t\"commercialPhone\": \"1212-1212\",\n\t\"homePhone\": \"1212-1212\",\n\t\"cellPhone\": \"1212-1212\",\n\t\"commercialEmail\": \"teste@teste.com.br\",\n\t\"personalEmail\": \"teste@teste.com.br\",\n\t\"dateOfBirth\": \"10-04-1989\",\n\t\"favorite\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/contact/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT/contact/updateFavorite",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"3\",\n\t\"name\": \"Testando 3456789\",\n\t\"commercialPhone\": \"1212-1212\",\n\t\"homePhone\": \"1212-1212\",\n\t\"cellPhone\": \"1212-1212\",\n\t\"commercialEmail\": \"teste@teste.com.br\",\n\t\"personalEmail\": \"teste@teste.com.br\",\n\t\"dateOfBirth\": \"10-04-1989\",\n\t\"favorite\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/contact/updateFavorite/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						"updateFavorite",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE/contact",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/contact/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contact",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
